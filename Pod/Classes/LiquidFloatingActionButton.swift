@@ -63,9 +63,18 @@ public class LiquidFloatingActionButton : UIView {
     @IBInspectable public var image: UIImage? {
         didSet {
             if image != nil {
-                plusLayer.contents = image!.CGImage
+                maskLayer.contents = image!.CGImage
+                
+                plusLayer.mask = maskLayer
+                plusLayer.backgroundColor = tintColor.CGColor
                 plusLayer.path = nil
             }
+        }
+    }
+    
+    @IBInspectable public var imageInset: CGFloat = 0 {
+        didSet {
+            maskLayer.frame = plusLayer.bounds.insetBy(dx: imageInset, dy: imageInset)
         }
     }
     
@@ -73,6 +82,7 @@ public class LiquidFloatingActionButton : UIView {
 
     private var plusLayer   = CAShapeLayer()
     private let circleLayer = CAShapeLayer()
+    private let maskLayer   = CALayer()
     
     private var touching = false
 
