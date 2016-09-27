@@ -14,8 +14,9 @@ This is also [spinner loader](https://github.com/yoavlt/LiquidLoader) components
 
 ## Features
 - [x] liquid animation
-- [x] easily custoizable
+- [x] easily customizable
 - [x] Objective-C compatible
+- [x] Swift2.0
 
 You can play a demo with [appetize.io](https://appetize.io/app/f4t42hgqbnbma4m12jcg3aeebg?device=iphone5s&scale=75&orientation=portrait)
 
