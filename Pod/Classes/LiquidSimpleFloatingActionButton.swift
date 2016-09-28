@@ -10,45 +10,45 @@ import Foundation
 import QuartzCore
 
 @IBDesignable
-public class LiquidSimpleFloatingActionButton : UIControl {
+open class LiquidSimpleFloatingActionButton : UIControl {
     
-    private let internalRadiusRatio: CGFloat = 20.0 / 56.0
-    public var enableShadow = true {
+    fileprivate let internalRadiusRatio: CGFloat = 20.0 / 56.0
+    open var enableShadow = true {
         didSet {
             setNeedsDisplay()
         }
     }
     
-    public var responsible = true
+    open var responsible = true
     
-    @IBInspectable public var color: UIColor = UIColor(red: 82 / 255.0, green: 112 / 255.0, blue: 235 / 255.0, alpha: 1.0)
+    @IBInspectable open var color: UIColor = UIColor(red: 82 / 255.0, green: 112 / 255.0, blue: 235 / 255.0, alpha: 1.0)
     
-    @IBInspectable public var image: UIImage? {
+    @IBInspectable open var image: UIImage? {
         didSet {
             if image != nil {
-                maskLayer.contents = image!.CGImage
+                maskLayer.contents = image!.cgImage
                 
                 plusLayer.mask = maskLayer
-                plusLayer.backgroundColor = tintColor.CGColor
+                plusLayer.backgroundColor = tintColor.cgColor
                 plusLayer.path = nil
             }
         }
     }
 
-    @IBInspectable public var imageInset: CGFloat = 0 {
+    @IBInspectable open var imageInset: CGFloat = 0 {
         didSet {
             maskLayer.frame = plusLayer.bounds.insetBy(dx: imageInset, dy: imageInset)
         }
     }
     
-    private var plusLayer   = CAShapeLayer()
-    private let circleLayer = CAShapeLayer()
-    private let maskLayer   = CALayer()
+    fileprivate var plusLayer   = CAShapeLayer()
+    fileprivate let circleLayer = CAShapeLayer()
+    fileprivate let maskLayer   = CALayer()
     
-    private var touching = false
+    fileprivate var touching = false
     
-    private var baseView = SimpleCircleLiquidBaseView()
-    private let liquidView = UIView()
+    fileprivate var baseView = SimpleCircleLiquidBaseView()
+    fileprivate let liquidView = UIView()
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -61,27 +61,27 @@ public class LiquidSimpleFloatingActionButton : UIControl {
     }
     
     // MARK: draw icon
-    public override func drawRect(rect: CGRect) {
+    open override func draw(_ rect: CGRect) {
         drawCircle()
         drawShadow()
     }
     
     /// create, configure & draw the plus layer (override and create your own shape in subclass!)
-    public func createPlusLayer(frame: CGRect) -> CAShapeLayer {
+    open func createPlusLayer(_ frame: CGRect) -> CAShapeLayer {
         
         // draw plus shape
         let plusLayer = CAShapeLayer()
         plusLayer.lineCap = kCALineCapRound
-        plusLayer.strokeColor = UIColor.whiteColor().CGColor
+        plusLayer.strokeColor = UIColor.white.cgColor
         plusLayer.lineWidth = 3.0
         
         let path = UIBezierPath()
-        path.moveToPoint(CGPoint(x: frame.width * internalRadiusRatio, y: frame.height * 0.5))
-        path.addLineToPoint(CGPoint(x: frame.width * (1 - internalRadiusRatio), y: frame.height * 0.5))
-        path.moveToPoint(CGPoint(x: frame.width * 0.5, y: frame.height * internalRadiusRatio))
-        path.addLineToPoint(CGPoint(x: frame.width * 0.5, y: frame.height * (1 - internalRadiusRatio)))
+        path.move(to: CGPoint(x: frame.width * internalRadiusRatio, y: frame.height * 0.5))
+        path.addLine(to: CGPoint(x: frame.width * (1 - internalRadiusRatio), y: frame.height * 0.5))
+        path.move(to: CGPoint(x: frame.width * 0.5, y: frame.height * internalRadiusRatio))
+        path.addLine(to: CGPoint(x: frame.width * 0.5, y: frame.height * (1 - internalRadiusRatio)))
         
-        plusLayer.path = path.CGPath
+        plusLayer.path = path.cgPath
         return plusLayer
     }
     
@@ -89,48 +89,48 @@ public class LiquidSimpleFloatingActionButton : UIControl {
         self.circleLayer.cornerRadius = self.frame.width * 0.5
         self.circleLayer.masksToBounds = true
         if touching && responsible {
-            self.circleLayer.backgroundColor = self.color.white(0.5).CGColor
+            self.circleLayer.backgroundColor = self.color.white(0.5).cgColor
         } else {
-            self.circleLayer.backgroundColor = self.color.CGColor
+            self.circleLayer.backgroundColor = self.color.cgColor
         }
     }
     
-    private func drawShadow() {
+    fileprivate func drawShadow() {
         if enableShadow {
             circleLayer.appendShadow()
         }
     }
     
     // MARK: Events
-    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         self.touching = true
         setNeedsDisplay()
     }
     
-    public override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         self.touching = false
         setNeedsDisplay()
     }
     
-    public override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        super.touchesCancelled(touches, withEvent: event)
+    open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
         self.touching = false
         setNeedsDisplay()
     }
     
     // MARK: private methods
-    private func setup() {
-        self.backgroundColor = UIColor.clearColor()
+    fileprivate func setup() {
+        self.backgroundColor = UIColor.clear
         self.clipsToBounds = false
         
-        baseView.userInteractionEnabled = false
+        baseView.isUserInteractionEnabled = false
         baseView.setup(self)
         addSubview(baseView)
         
         liquidView.frame = baseView.frame
-        liquidView.userInteractionEnabled = false
+        liquidView.isUserInteractionEnabled = false
         addSubview(liquidView)
         
         liquidView.layer.addSublayer(circleLayer)
@@ -148,7 +148,7 @@ class SimpleCircleLiquidBaseView : UIView {
     var baseLiquid: LiquittableCircle?
     var enableShadow = true
     
-    func setup(actionButton: LiquidSimpleFloatingActionButton) {
+    func setup(_ actionButton: LiquidSimpleFloatingActionButton) {
         self.frame = actionButton.frame
         self.center = actionButton.center.minus(actionButton.frame.origin)
         let radius = min(self.frame.width, self.frame.height) * 0.5
@@ -156,7 +156,7 @@ class SimpleCircleLiquidBaseView : UIView {
         baseLiquid = LiquittableCircle(center: self.center.minus(self.frame.origin), radius: radius, color: actionButton.color)
         baseLiquid?.clipsToBounds = false
         baseLiquid?.layer.masksToBounds = false
-        baseLiquid?.userInteractionEnabled = false
+        baseLiquid?.isUserInteractionEnabled = false
         
         clipsToBounds = false
         layer.masksToBounds = false

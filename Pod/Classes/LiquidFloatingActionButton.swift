@@ -83,10 +83,6 @@ open class LiquidFloatingActionButton : UIView {
     fileprivate var plusLayer   = CAShapeLayer()
     fileprivate let circleLayer = CAShapeLayer()
     fileprivate let maskLayer   = CALayer()
-    @IBInspectable open var rotationDegrees: CGFloat = 45.0
-
-    fileprivate var plusLayer   = CAShapeLayer()
-    fileprivate let circleLayer = CAShapeLayer()
     
     fileprivate var touching = false
 
